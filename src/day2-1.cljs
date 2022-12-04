@@ -15,11 +15,18 @@
       3 (= 2 right))))
 
 (defn win-with [points left]
-  (if left [(+ 6 (first points)) (last points)] [(first points) (+ 6 (last points))]))
+  (if left
+    [(+ 6 (first points)) (last points)]
+    [(first points) (+ 6 (last points))]))
 
 (defn solve-line [line]
-  (let [points (map #(get rules (keyword %)) (str/split line " "))]
-    (if (= (first points) (last points)) [(+ 3 (first points)) (+ 3 (last points))]
-        (win-with points (wins points)))))
+  (let [points (map
+                #(get rules (keyword %))
+                (str/split line " "))]
+    (if (= (first points) (last points)) 
+      [(+ 3 (first points)) (+ 3 (last points))] 
+      (win-with points (wins points)))))
 
-(reduce (fn [a line] (+ a (last (solve-line line)))) 0 lines)
+(reduce (fn [a line] (+ a (last (solve-line line))))
+        0
+        lines)
