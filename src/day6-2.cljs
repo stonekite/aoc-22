@@ -2,14 +2,16 @@
 
 (def buffer (.readFileSync fs "./inputs/day6.txt" "utf8"))
 
-(reduce
- (fn [a char]
-   (let [new-a (conj (if (> (count a) 13) (subvec a 1) a) char)]
+(def len 14)
+
+((fn [i]
+   (let [substring (subs buffer (- i len) i)]
      (if
       (and
-       (= 14 (count new-a))
-       (= (count (set new-a)) (count new-a)))
-       (reduced (+ 14 (.indexOf buffer (apply + new-a))))
-       new-a)))
- []
- buffer)
+       (= len (count substring))
+       (=
+        (count (set substring))
+        (count substring)))
+       i
+       (recur (inc i)))))
+ len)
